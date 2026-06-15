@@ -1,0 +1,97 @@
+terraform {
+  required_version = ">= 1.0"
+  required_providers {
+    aws = {
+      source  = "hashicorp/aws"
+      version = "~> 5.0"
+    }
+  }
+}
+
+provider "aws" {
+  region = var.aws_region
+
+  # Use LocalStack endpoint
+  endpoints {
+    s3 = var.localstack_endpoint
+  }
+
+  # LocalStack credentials (dummy values)
+  access_key = var.aws_access_key_id
+  secret_key = var.aws_secret_access_key
+
+  skip_credentials_validation = true
+  skip_metadata_api_check     = true
+  skip_requesting_account_id  = true
+}
+
+# S3 Bucket for file storage
+resource "aws_s3_bucket" "drive_bucket" {
+  bucket = var.bucket_name
+
+  tags = {
+    Name        = "Drive Bucket"
+    Environment = "Development"
+    Project     = "Drive Clone"
+  }
+}
+
+# Block public access to the bucket
+resource "aws_s3_bucket_public_access_block" "drive_bucket_pab" {
+  bucket = aws_s3_bucket.drive_bucket.id
+
+  block_public_acls       = true
+  block_public_policy     = true
+  ignore_public_acls      = true
+  restrict_public_buckets = true
+}
+
+# Enable versioning for the bucket
+resource "aws_s3_bucket_versioning" "drive_bucket_versioning" {
+  bucket = aws_s3_bucket.drive_bucket.id
+
+  versioning_configuration {
+    status = "Enabled"
+  }
+}
+
+# Enable server-side encryption
+resource "aws_s3_bucket_server_side_encryption_configuration" "drive_bucket_encryption" {
+  bucket = aws_s3_bucket.drive_bucket.id
+
+  rule {
+    apply_server_side_encryption_by_default {
+      sse_algorithm = "AES256"
+    }
+  }
+}
+
+# Lifecycle policy to delete old versions
+resource "aws_s3_bucket_lifecycle_configuration" "drive_bucket_lifecycle" {
+  bucket = aws_s3_bucket.drive_bucket.id
+
+  rule {
+    id     = "delete-old-versions"
+    status = "Enabled"
+
+    noncurrent_version_expiration {
+      noncurrent_days = 30
+    }
+  }
+}
+
+# Outputs
+output "bucket_name" {
+  description = "The name of the S3 bucket"
+  value       = aws_s3_bucket.drive_bucket.id
+}
+
+output "bucket_arn" {
+  description = "The ARN of the S3 bucket"
+  value       = aws_s3_bucket.drive_bucket.arn
+}
+
+output "bucket_region" {
+  description = "The region of the S3 bucket"
+  value       = aws_s3_bucket.drive_bucket.region
+}
