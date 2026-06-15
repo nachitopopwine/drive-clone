@@ -25,7 +25,7 @@ Un clon de Google Drive que permite cargar, gestionar y descargar archivos usand
 ### 1. Clonar el repositorio
 
 ```bash
-git clone https://github.com/tu-usuario/drive-clone.git
+git clone https://github.com/tu-usuario/drive-clone.git //aun no lo subo lo tengo local en mi pc
 cd drive-clone
 ```
 
@@ -375,31 +375,3 @@ Para desplegar a producción:
 - [React Documentation](https://react.dev/)
 - [Express.js](https://expressjs.com/)
 
-## 👥 Contribuciones
-
-Para contribuir al proyecto:
-
-1. Fork el repositorio
-2. Crea una rama: `git checkout -b feat/nueva-caracteristica`
-3. Commit con conventional commits: `git commit -m "feat: descripción"`
-4. Push a la rama: `git push origin feat/nueva-caracteristica`
-5. Abre un Pull Request
-
-## 👨‍🏫 Entrega
-
-- 📹 **Video**: Explicación de arquitectura, código y demo funcional
-- 💾 **GitHub**: Proyecto completo con profesor como colaborador
-- 📄 **README**: Este archivo con todas las instrucciones
-- 📅 **Fecha**: 18 de junio de 2026 a las 23:59
-
-## 📄 Licencia
-
-Este proyecto es de código abierto bajo la licencia MIT.
-
-## 📧 Contacto
-
-Para preguntas o sugerencias, contacta al profesor o abre un issue en el repositorio.
-
----
-
-**Hecho con ❤️ para Taller 3**

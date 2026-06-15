@@ -1,16 +1,11 @@
 #!/bin/bash
-# LocalStack initialization script
 
-# Wait for LocalStack to be ready
-sleep 10
+echo "Creating S3 bucket..."
 
-# Create the S3 bucket
-awslocal s3 mb s3://drive-bucket --region us-east-1
+awslocal s3 mb s3://drive-bucket || true
 
-# Set bucket versioning
 awslocal s3api put-bucket-versioning \
   --bucket drive-bucket \
-  --versioning-configuration Status=Enabled \
-  --region us-east-1
+  --versioning-configuration Status=Enabled
 
-echo "LocalStack S3 bucket 'drive-bucket' created successfully!"
+echo "Bucket drive-bucket created successfully"
