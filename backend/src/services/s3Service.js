@@ -48,7 +48,7 @@ const getFilesFromS3 = async (limit = 3) => {
         key: file.Key,
         size: file.Size,
         lastModified: file.LastModified,
-        name: file.Key.split('-').slice(1).join('-')
+        name: file.Key
       }));
 
     return files;
@@ -77,7 +77,7 @@ const downloadFileFromS3 = async (fileKey) => {
     return {
       buffer: Buffer.concat(chunks),
       contentType: response.ContentType,
-      fileName: fileKey.split('-').slice(1).join('-')
+      fileName: fileKey
     };
   } catch (error) {
     console.error("Error downloading file from S3:", error);
