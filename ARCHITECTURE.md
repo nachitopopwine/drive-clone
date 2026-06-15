@@ -344,4 +344,4 @@ docker-compose up
 
 ---
 
-**Última actualización**: 2024-06-10
+**Última actualización**: 2026-06-10
