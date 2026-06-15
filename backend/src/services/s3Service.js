@@ -11,7 +11,7 @@ const BUCKET_NAME = "drive-bucket";
 const uploadFileToS3 = async (fileName, fileBuffer, mimeType) => {
   const params = {
     Bucket: BUCKET_NAME,
-    Key: `${Date.now()}-${fileName}`,
+    Key: fileName,
     Body: fileBuffer,
     ContentType: mimeType
   };
