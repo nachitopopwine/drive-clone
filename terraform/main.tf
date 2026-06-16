@@ -74,6 +74,8 @@ resource "aws_s3_bucket_lifecycle_configuration" "drive_bucket_lifecycle" {
     id     = "delete-old-versions"
     status = "Enabled"
 
+    filter {}
+
     noncurrent_version_expiration {
       noncurrent_days = 30
     }
