@@ -9,20 +9,19 @@ terraform {
 }
 
 provider "aws" {
-  region = var.aws_region
-
-  # Use LocalStack endpoint
-  endpoints {
-    s3 = var.localstack_endpoint
-  }
-
-  # LocalStack credentials (dummy values)
-  access_key = var.aws_access_key_id
-  secret_key = var.aws_secret_access_key
+  region     = "us-east-1"
+  access_key = "test"
+  secret_key = "test"
 
   skip_credentials_validation = true
   skip_metadata_api_check     = true
   skip_requesting_account_id  = true
+
+  s3_use_path_style = true
+
+  endpoints {
+    s3 = "http://localhost:4566"
+  }
 }
 
 # S3 Bucket for file storage
@@ -62,22 +61,6 @@ resource "aws_s3_bucket_server_side_encryption_configuration" "drive_bucket_encr
   rule {
     apply_server_side_encryption_by_default {
       sse_algorithm = "AES256"
-    }
-  }
-}
-
-# Lifecycle policy to delete old versions
-resource "aws_s3_bucket_lifecycle_configuration" "drive_bucket_lifecycle" {
-  bucket = aws_s3_bucket.drive_bucket.id
-
-  rule {
-    id     = "delete-old-versions"
-    status = "Enabled"
-
-    filter {}
-
-    noncurrent_version_expiration {
-      noncurrent_days = 30
     }
   }
 }
